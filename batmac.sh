@@ -6,17 +6,12 @@ generate_random_string() {
 }
 
 # List available network interfaces
-interfaces=$(ip link show | grep -o '^[0-9]\+: [^:]\+' | cut -d' ' -f2)
-echo "Available interfaces: $interfaces"
+echo "Available interfaces: $(ip link show)"
 
 # User selects a network interface
 read -p "Enter the name of the interface you want to configure: " selected_interface
 
-# Input validation for the selected interface
-if ! [[ " $interfaces " =~ " $selected_interface " ]]; then
-  echo "Invalid interface. Please choose a valid interface."
-  exit 1
-fi
+# Input validation for the selected interface WIP
 
 # Change MAC address for the selected interface (persistent)
 new_mac=$(printf '%02x:' $(od -An -N3 -i /dev/random) | sed 's/.$//')
